@@ -94,7 +94,7 @@ impl TryFrom<&str> for Nnp {
 impl From<Nnp> for usize {
     fn from(value: Nnp) -> Self {
         value.0.iter().fold(0, |i, n| match n {
-            Ale => 0.max(i) + 100,
+            Ale => 1.max(i) * 100,
             Mute => i + 20,
             Luka => i + 5,
             Tu => i + 2,
