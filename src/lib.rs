@@ -2,7 +2,7 @@ use Nanpa::*;
 use std::fmt::Display;
 
 pub struct Nnp(Vec<Nanpa>);
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq)]
 enum Nanpa {
     Ala,
     Wan,
@@ -53,8 +53,12 @@ impl Nnp {
                 "ala" => Ok(Ala),
                 _ => Err(format!("`{}` li nasin nanpa pona ala", value)),
             })
-            .collect::<Result<_, _>>()?;
-        Ok(Self(out))
+            .collect::<Result<Vec<Nanpa>, _>>()?;
+        if out.contains(&Ala) && out.len() > 1 {
+            Err("o pana e nanpa `ala` pi taso taso".into())
+        } else {
+            Ok(Self(out))
+        }
     }
     pub fn try_from_short(value: &str) -> Result<Self, String> {
         let out = value
@@ -66,10 +70,14 @@ impl Nnp {
                 'T' => Ok(Tu),
                 'W' => Ok(Wan),
                 'X' => Ok(Ala),
-                _ => Err(format!("`{}` li nasin nanpa pona ala", value)),
+                _ => Err(format!("`{}` li NNP ala", value)),
             })
-            .collect::<Result<_, _>>()?;
-        Ok(Self(out))
+            .collect::<Result<Vec<Nanpa>, _>>()?;
+        if out.contains(&Ala) && out.len() > 1 {
+            Err("o pana e nanpa `X` pi taso taso".into())
+        } else {
+            Ok(Self(out))
+        }
     }
 }
 impl TryFrom<&str> for Nnp {
