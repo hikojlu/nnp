@@ -28,9 +28,7 @@ impl From<usize> for Nnp {
 
         let mut out = vec![];
         if ale > 0 {
-            if ale > 1 {
-                out.extend(Self::from(ale).0);
-            };
+            out.extend(Self::from(ale).0);
             out.push(Ale);
         };
         out.extend([Mute].repeat(mute));
